@@ -27,7 +27,7 @@ For new machines, use the automated installer:
 
 ```bash
 # Clone repository
-git clone https://github.com/obiyoag/my_dotfiles.git ~/my_dotfiles
+git clone git@github.com:Coldeye2020/my_dotfiles.git ~/my_dotfiles
 cd ~/my_dotfiles
 
 # Run installer (one command to configure everything)
