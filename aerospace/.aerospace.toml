@@ -79,9 +79,9 @@ on-mode-changed = []
     alt-shift-l = ['join-with right', 'mode main']
 
 [workspace-to-monitor-force-assignment]
-"I" = ["LS27D80xU", "VDSAg"]
-"O" = ["LS27D80xU", "VDSAg"]
-"P" = ["LS27D80xU", "VDSAg"]
+"I" = ["LS27D80xU", "DELL U2723QX"]
+"O" = ["LS27D80xU", "DELL U2723QX"]
+"P" = ["LS27D80xU", "DELL U2723QX"]
 "B" = "Built-in"
 "N" = "Built-in"
 "M" = "Built-in"
