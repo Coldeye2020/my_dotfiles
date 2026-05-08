@@ -1,0 +1,67 @@
+# Ghostty config - migrated from iTerm2
+# Generated from iTerm2 Default profile (Solarized Dark theme)
+
+# --- Font ---
+font-family = "Sarasa Term SC"
+font-size = 19
+# font-family = MesloLGS NF
+# font-family = Sarasa Term SC
+# font-size = 13
+
+# --- Cursor ---
+cursor-style = block
+cursor-style-blink = false
+
+
+# --- Window ---
+# iTerm2 had no transparency configured
+background-opacity = 0.88
+background-blur-radius = 10
+unfocused-split-opacity = 0.5
+split-divider-color = #b58900
+
+# --- Colors ---
+theme = catppuccin-mocha
+
+# --- Colors (Solarized Dark, commented out) ---
+# theme = solarized-dark.conf
+
+# --- Terminal behavior ---
+bold-is-bright = true
+
+# 标签页
+keybind = cmd+t=new_tab
+keybind = cmd+shift+h=previous_tab
+keybind = cmd+shift+l=next_tab
+keybind = cmd+w=close_surface
+
+
+# 分屏
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+alt+left=goto_split:left
+keybind = cmd+alt+right=goto_split:right
+keybind = cmd+alt+up=goto_split:top
+keybind = cmd+alt+down=goto_split:bottom
+
+
+# 字体大小
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+zero=reset_font_size
+
+
+# 全局热键：下拉终端
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+
+# 分屏管理
+keybind = cmd+shift+e=equalize_splits
+keybind = cmd+shift+f=toggle_split_zoom
+
+
+# 重载配置
+keybind = cmd+shift+comma=reload_config
+
+
+scrollback-limit = 25000000
