@@ -85,6 +85,43 @@ command_exists() {
   command -v "$1" &>/dev/null
 }
 
+ensure_homebrew() {
+  if ! command_exists brew; then
+    log_info "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" >> "$LOG_FILE" 2>&1 || {
+      log_error "Failed to install Homebrew"
+      exit 1
+    }
+    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null)" || eval "$(/usr/local/bin/brew shellenv 2>/dev/null)"
+    log_success "Homebrew installed"
+  fi
+}
+
+ensure_formula() {
+  local cmd="$1" pkg="${2:-$1}"
+  if ! command_exists "$cmd"; then
+    log_info "Installing $pkg..."
+    brew install "$pkg" >> "$LOG_FILE" 2>&1 || { log_error "Failed to install $pkg"; exit 1; }
+    log_success "Installed $pkg"
+  else
+    log_info "Found: $cmd"
+  fi
+}
+
+ensure_cask() {
+  local pkg="$1" tap="${2:-}"
+  if ! brew list --cask "$pkg" &>/dev/null; then
+    if [[ -n "$tap" ]]; then
+      brew tap "$tap" >> "$LOG_FILE" 2>&1 || { log_error "Failed to tap $tap"; exit 1; }
+    fi
+    log_info "Installing $pkg..."
+    brew install --cask "$pkg" >> "$LOG_FILE" 2>&1 || { log_error "Failed to install $pkg"; exit 1; }
+    log_success "Installed $pkg"
+  else
+    log_info "Found: $pkg (cask)"
+  fi
+}
+
 # ============================================================================
 # VALIDATION FUNCTIONS
 # ============================================================================
@@ -92,35 +129,38 @@ command_exists() {
 check_prerequisites() {
   log_info "Checking prerequisites..."
 
-  # Critical dependency: GNU Stow
-  if ! command_exists stow; then
-    log_error "GNU Stow is required but not installed"
-    echo
-    echo "Install Stow with:"
-    echo "  macOS:   brew install stow"
-    echo "  Ubuntu:  sudo apt install stow"
-    echo
+  local os
+  os="$(detect_os)"
+
+  if [[ "$os" == "macos" ]]; then
+    ensure_homebrew
+    ensure_formula stow stow
+    ensure_formula git git
+    ensure_formula zsh zsh
+    ensure_formula nvim neovim
+    ensure_formula eza eza
+    ensure_cask hammerspoon
+    ensure_cask karabiner-elements
+    ensure_cask aerospace nikitabobko/tap/aerospace
+  elif [[ "$os" == "ubuntu" ]]; then
+    sudo apt-get update -qq >> "$LOG_FILE" 2>&1
+    for pkg in stow git zsh neovim eza; do
+      cmd="$pkg"
+      [[ "$pkg" == "neovim" ]] && cmd="nvim"
+      if ! command_exists "$cmd"; then
+        log_info "Installing $pkg..."
+        sudo apt-get install -y "$pkg" >> "$LOG_FILE" 2>&1 || { log_error "Failed to install $pkg"; exit 1; }
+        log_success "Installed $pkg"
+      else
+        log_info "Found: $cmd"
+      fi
+    done
+  else
+    log_error "Unsupported OS: $os"
     exit 1
   fi
-  log_info "Found: stow ($(stow --version | head -1))"
 
-  # Optional but recommended tools
-  local missing_tools=()
-  for cmd in git zsh nvim; do
-    if ! command_exists "$cmd"; then
-      missing_tools+=("$cmd")
-      log_warn "$cmd not found. Configs will install but won't be usable until $cmd is installed."
-    else
-      log_info "Found: $cmd"
-    fi
-  done
-
-  if [ ${#missing_tools[@]} -gt 0 ]; then
-    echo
-    log_warn "Missing tools: ${missing_tools[*]}"
-    echo "Installation will continue, but you'll need to install these tools later."
-    echo
-  fi
+  log_success "All prerequisites satisfied"
 }
 
 verify_repo_structure() {
@@ -257,7 +297,7 @@ show_banner() {
   echo "Log file:    $LOG_FILE"
   echo
   echo "This script will:"
-  echo "  1. Verify prerequisites (stow, etc.)"
+  echo "  1. Install missing prerequisites (Homebrew, stow, git, zsh, nvim, eza, casks)"
   echo "  2. Deploy configs using GNU Stow"
   echo "  3. Configure Hammerspoon config path"
   echo "  4. Verify installation"
