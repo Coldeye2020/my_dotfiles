@@ -2,7 +2,7 @@ alias df='df -h'
 alias du='du -h'
 alias c='clear'
 alias vim='nvim'
-alias ls="ls -alh"
+alias ls="eza -alh --icons --group-directories-first --git"
 alias tmux='tmux -u'
 
 alias claude='claude --append-system-prompt "$(cat ~/.config/claude/system-prompt.txt)"'
