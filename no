@@ -1,0 +1,1 @@
+]52;c;ICAgIHRleHRfcGFydHMuYXBwZW5kKGYi44CQ5om55pS55qGG5pWw6YeP44CR77yae2xlbihyb3dbJ3N0dWRlbnRfYW5zd2VycyddKX0iKQo= server running on /private/tmp/tmux-501/default
