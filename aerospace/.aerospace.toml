@@ -48,16 +48,26 @@ on-mode-changed = []
     alt-minus = 'resize smart -50'
     alt-equal = 'resize smart +50'
 
+<<<<<<< Updated upstream
     alt-u = 'workspace U'
     alt-i = ['workspace I', 'layout accordion horizontal vertical']
+=======
+    alt-u = ['workspace U', 'layout accordion horizontal vertical']
+    alt-i = 'workspace I'
+>>>>>>> Stashed changes
     alt-o = 'workspace O'
     alt-p = 'workspace P'
     alt-b = 'workspace B'
     alt-n = 'workspace N'
     alt-m = 'workspace M'
 
+<<<<<<< Updated upstream
     alt-shift-u = 'move-node-to-workspace U'
     alt-shift-i = ['move-node-to-workspace I', 'workspace I', 'layout accordion horizontal vertical']
+=======
+    alt-shift-u = ['move-node-to-workspace U', 'workspace U', 'layout accordion horizontal vertical']
+    alt-shift-i = 'move-node-to-workspace I'
+>>>>>>> Stashed changes
     alt-shift-o = 'move-node-to-workspace O'
     alt-shift-p = 'move-node-to-workspace P'
     alt-shift-b = 'move-node-to-workspace B'
@@ -100,11 +110,19 @@ run = ["layout floating", "move-node-to-workspace N"]
 
 [[on-window-detected]]
 if.app-id = "com.cmuxterm.app"
+<<<<<<< Updated upstream
 run = ["layout tiling", "move-node-to-workspace U"]
 
 [[on-window-detected]]
 if.app-id = "com.jetbrains.intellij"
 run = ["layout tiling", "move-node-to-workspace I"]
+=======
+run = ["layout tiling", "move-node-to-workspace I"]
+
+[[on-window-detected]]
+if.app-id = "com.jetbrains.intellij"
+run = ["layout tiling", "move-node-to-workspace U"]
+>>>>>>> Stashed changes
 
 [[on-window-detected]]
 if.app-id = "com.google.Chrome"
